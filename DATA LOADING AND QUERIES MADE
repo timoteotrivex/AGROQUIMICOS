@@ -1,0 +1,24 @@
+SELECT * FROM Productos;
+SELECT * FROM Clientes;
+SELECT * FROM Proveedores; 
+
+--CONSULTA PRODUCTOS CON BAJO STOCK
+
+SELECT Nombre, Categoria, StockActual
+From  Productos
+Where StockActual <50;
+
+--LISTADO DE VENTAS CON NOMBRE DEL CLIENTE 
+SELECT V.IdVenta, V.Fecha, C.Nombre AS Cliente, V.Total
+FROM Ventas V
+JOIN Clientes C ON V.IdCliente = C.IdCliente;
+
+
+--TOTAL VENDIDO POR PRODUCTO
+SELECT P.Nombre, SUM(D.Cantidad) AS TotalVendido
+FROM DetalleVenta D
+JOIN Productos P ON D.IdProducto = P.IdProducto
+GROUP BY P.Nombre;
+
+
+RESULTADOS OBTENIDOS: 
