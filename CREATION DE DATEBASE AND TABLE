@@ -1,0 +1,53 @@
+CREATE DATABASE AgroDatos;
+GO
+USE AgroDatos;
+GO
+
+-- Tabla de productos
+CREATE TABLE Productos (
+    IdProducto INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Categoria VARCHAR(50),
+    UnidadMedida VARCHAR(20),
+    PrecioUnitario DECIMAL(10,2),
+    StockActual INT
+);
+
+-- Tabla de clientes
+CREATE TABLE Clientes (
+    IdCliente INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Localidad VARCHAR(100),
+    Provincia VARCHAR(50),
+    Telefono VARCHAR(20)
+);
+
+-- Tabla de proveedores
+CREATE TABLE Proveedores (
+    IdProveedor INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Localidad VARCHAR(100),
+    Provincia VARCHAR(50),
+    Telefono VARCHAR(20)
+);
+
+-- Tabla de ventas
+CREATE TABLE Ventas (
+    IdVenta INT IDENTITY(1,1) PRIMARY KEY,
+    Fecha DATE,
+    IdCliente INT,
+    Total DECIMAL(10,2),
+    FOREIGN KEY (IdCliente) REFERENCES Clientes(IdCliente)
+);
+
+-- Detalle de venta
+CREATE TABLE DetalleVenta (
+    IdDetalle INT IDENTITY(1,1) PRIMARY KEY,
+    IdVenta INT,
+    IdProducto INT,
+    Cantidad INT,
+    PrecioUnitario DECIMAL(10,2),
+    Subtotal AS (Cantidad * PrecioUnitario) PERSISTED,
+    FOREIGN KEY (IdVenta) REFERENCES Ventas(IdVenta),
+    FOREIGN KEY (IdProducto) REFERENCES Productos(IdProducto)
+);
